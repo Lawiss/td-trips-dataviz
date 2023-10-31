@@ -46,10 +46,6 @@ const INITIAL_VIEW_STATE = {
 
 const MAP_STYLE = 'https://basemaps.cartocdn.com/gl/dark-matter-nolabels-gl-style/style.json';
 
-const res = await fetch('public/trips.json')
-const DATA = await res.json()
-console.log(DATA)
-
 const landCover = [
   [
     [-74.0, 40.7],
@@ -60,7 +56,6 @@ const landCover = [
 ];
 
 export default function App({
-  trips = DATA,
   trailLength = 500,
   initialViewState = INITIAL_VIEW_STATE,
   mapStyle = MAP_STYLE,
@@ -103,7 +98,7 @@ export default function App({
     }),
     new TripsLayer({
       id: 'trips',
-      data: trips,
+      data: "https://raw.githubusercontent.com/Lawiss/td-trips-dataviz/main/public/trips.json",
       getPath: d => d.coordinates,
       getTimestamps: d => d.timestamps,
       getColor: d => theme.trailColor1,
