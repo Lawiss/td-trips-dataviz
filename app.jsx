@@ -46,7 +46,7 @@ const INITIAL_VIEW_STATE = {
 
 const MAP_STYLE = 'https://basemaps.cartocdn.com/gl/dark-matter-nolabels-gl-style/style.json';
 
-const res = await fetch('/trips.json')
+const res = await fetch('trips.json')
 const DATA = await res.json()
 console.log(DATA)
 
