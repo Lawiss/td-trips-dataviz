@@ -8,13 +8,6 @@ import DeckGL from '@deck.gl/react';
 import { PolygonLayer } from '@deck.gl/layers';
 import { TripsLayer } from '@deck.gl/geo-layers';
 
-// Source data CSV
-const DATA_URL = {
-  BUILDINGS:
-    'https://raw.githubusercontent.com/visgl/deck.gl-data/master/examples/trips/buildings.json', // eslint-disable-line
-  TRIPS: 'https://raw.githubusercontent.com/visgl/deck.gl-data/master/examples/trips/trips-v7.json' // eslint-disable-line
-};
-
 const ambientLight = new AmbientLight({
   color: [255, 255, 255],
   intensity: 1.0
