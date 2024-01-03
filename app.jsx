@@ -25,9 +25,9 @@ export default function App({
   trailLength = 2000,
   initialViewState = INITIAL_VIEW_STATE,
   mapStyle = MAP_STYLE,
-  animationSpeed = 25
+  animationSpeed = 50
 }) {
-  const [time, setTime] = useState(1698278400);
+  const [time, setTime] = useState(1701043200);
   const [animation] = useState({});
   const [isPlaying, setIsPlaying] = useState(false); // To track whether the animation is playing or paused
   const [displayTime, setDisplayTime] = useState(time);
@@ -35,8 +35,8 @@ export default function App({
   const animate = () => {
     setTime((t) => {
       let new_t;
-      if (t > 1698410761.781) {
-        new_t = 1698278400;
+      if (t > 1701388800) {
+        new_t = 1701043200;
       } else {
         new_t = t + (isPlaying ? animationSpeed : 0); // Only advance time if playing
       }
@@ -56,7 +56,7 @@ export default function App({
   const layers = [
     new TripsLayer({
       id: 'trips',
-      data: "https://raw.githubusercontent.com/Lawiss/td-trips-dataviz/main/public/trips.json",
+      data: '/trips.json',
       getPath: d => d.coordinates,
       getTimestamps: d => d.timestamps,
       getColor: d => [23, 184, 190],
@@ -87,8 +87,8 @@ export default function App({
         </button>
         <input
           type="range"
-          min={1698278400}
-          max={1698410761.781}
+          min={1701043200}
+          max={1701388800}
           step={animationSpeed}
           value={time}
           onChange={(e) => {
