@@ -79,7 +79,15 @@ export default function App({
         <Map reuseMaps mapLib={maplibregl} mapStyle={mapStyle} preventStyleDiffing={true} />
       </DeckGL>
       <div style={{ position: 'absolute', top: '10px', left: '10px', background: 'rgba(255, 255, 255, 0.8', padding: '10px', borderRadius: '5px' }}>
-        {new Date(displayTime * 1000).toLocaleString()}
+        {new Date(displayTime * 1000).toLocaleDateString('fr-FR', {
+          weekday: 'long', // Ajout du jour de la semaine
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+          hour: 'numeric',
+          minute: 'numeric',
+          second: 'numeric'
+        })}
         <button onClick={() => {
           setIsPlaying(!isPlaying)
         }}>
