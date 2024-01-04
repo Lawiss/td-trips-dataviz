@@ -4,6 +4,7 @@ import { createRoot } from 'react-dom/client';
 import { Map } from 'react-map-gl';
 import maplibregl from 'maplibre-gl';
 import DeckGL from '@deck.gl/react';
+import { FlyToInterpolator } from 'deck.gl';
 import { TripsLayer } from '@deck.gl/geo-layers';
 import { scaleSequential, scaleLinear } from 'd3-scale';
 import { interpolateBlues, interpolateGreens } from 'd3-scale-chromatic';
@@ -15,6 +16,15 @@ const INITIAL_VIEW_STATE = {
   latitude: 46.9491073,
   zoom: 5,
   pitch: 5,
+  bearing: 0
+};
+
+// View state for Paris
+const PARIS_VIEW_STATE = {
+  longitude: 2.3522,
+  latitude: 48.8566,
+  zoom: 11,
+  pitch: 30,
   bearing: 0
 };
 
@@ -66,6 +76,16 @@ export default function App({
     setViewState(viewState);
   };
 
+  // Function to smooth transition to a specific view state
+  const goToLocation = (targetViewState) => {
+    setViewState({
+      ...viewState,
+      ...targetViewState,
+      transitionDuration: 2000, // in milliseconds, adjust to your preference
+      transitionInterpolator: new FlyToInterpolator()
+    });
+  };
+
 
 
   const animate = () => {
@@ -105,15 +125,12 @@ export default function App({
   }, [time]);
 
 
-  // Définition d'une échelle à seuils pour que toutes les valeurs au-dessus de 10 aient la couleur maximale
-  // Échelle séquentielle monochrome de bleus
 
   const colorScale = scaleLinear()
     .domain([0, 25])
     .range(['#ffce00', '#ff7400']); // Use colors that stand out on a dark background
 
   function getColorFromQuantity(quantity) {
-    console.log(isDaytime)
     const colorHex = (colorScale)(Math.min(quantity, 15));
     const rgbColor = rgb(colorHex);
     return [rgbColor.r, rgbColor.g, rgbColor.b, 255];
@@ -227,6 +244,11 @@ export default function App({
               Changer pour la vue {manualDaytime ? 'Nuit' : 'Jour'}
             </button>
           )}
+        </div>
+        <div>
+          <button onClick={() => goToLocation(PARIS_VIEW_STATE)}>
+            Go to Paris
+          </button>
         </div>
 
       </div>
