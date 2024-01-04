@@ -87,14 +87,16 @@ export default function App({
 
   // Définition d'une échelle à seuils pour que toutes les valeurs au-dessus de 10 aient la couleur maximale
   // Échelle séquentielle monochrome de bleus
+
   const colorScale = scaleLinear()
     .domain([0, 25])
-    .range(['#ADD8E6', '#192a56']); // Du bleu clair (LightBlue) au bleu (Blue)
+    .range(['#ffce00', '#ff7400']); // Use colors that stand out on a dark background
 
   function getColorFromQuantity(quantity) {
-    const colorHex = colorScale(Math.min(quantity, 15)); // Les valeurs > 10 utilisent la couleur max
+    console.log(isDaytime)
+    const colorHex = (colorScale)(Math.min(quantity, 15));
     const rgbColor = rgb(colorHex);
-    return [rgbColor.r, rgbColor.g, rgbColor.b, 255]; // Ajout de l'opacité maximale à la fin
+    return [rgbColor.r, rgbColor.g, rgbColor.b, 255];
   }
 
   const layers = [
