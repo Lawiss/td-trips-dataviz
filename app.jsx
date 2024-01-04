@@ -51,6 +51,11 @@ export default function App({
   const [manualMode, setManualMode] = useState(false); // State to track manual mode
   const [manualDaytime, setManualDaytime] = useState(true); // State to track manual day/night mode
 
+  const [customLongitude, setCustomLongitude] = useState('2.3522'); // Default values for Paris
+  const [customLatitude, setCustomLatitude] = useState('48.8566');
+  const [customZoom, setCustomZoom] = useState('11');
+  const [customPitch, setCustomPitch] = useState('30');
+
   // State hook to manage whether it is currently daytime
   const [isDaytime, setIsDaytime] = useState(() => {
     const currentHour = new Date(time * 1000).getHours();
@@ -84,6 +89,19 @@ export default function App({
       transitionDuration: 2000, // in milliseconds, adjust to your preference
       transitionInterpolator: new FlyToInterpolator()
     });
+  };
+
+  const goToCustomLocation = () => {
+    const targetViewState = {
+      longitude: parseFloat(customLongitude),
+      latitude: parseFloat(customLatitude),
+      zoom: parseFloat(customZoom),
+      pitch: parseFloat(customPitch),
+      bearing: 0,
+      transitionDuration: 2000,
+      transitionInterpolator: new FlyToInterpolator()
+    };
+    setViewState(targetViewState);
   };
 
 
@@ -248,6 +266,40 @@ export default function App({
         <div>
           <button onClick={() => goToLocation(PARIS_VIEW_STATE)}>
             Go to Paris
+          </button>
+        </div>
+        <div>
+          <div>
+            <label>
+              Longitude:
+              <input type="text" value={customLongitude} onChange={e => setCustomLongitude(e.target.value)} />
+            </label>
+          </div>
+
+          <div>
+            <label>
+              Latitude:
+              <input type="text" value={customLatitude} onChange={e => setCustomLatitude(e.target.value)} />
+            </label>
+          </div>
+
+          <div>
+            <label>
+              Zoom:
+              <input type="text" value={customZoom} onChange={e => setCustomZoom(e.target.value)} />
+            </label>
+          </div>
+
+          <div>
+            <label>
+              Pitch:
+              <input type="text" value={customPitch} onChange={e => setCustomPitch(e.target.value)} />
+            </label>
+          </div>
+
+
+          <button onClick={goToCustomLocation}>
+            Go to Location
           </button>
         </div>
 
