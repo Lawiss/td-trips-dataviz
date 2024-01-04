@@ -38,15 +38,35 @@ export default function App({
   const [nightMapOpacity, setNightMapOpacity] = useState(1); // Night map is hidden
   const [viewState, setViewState] = useState(initialViewState);
 
-  const onViewStateChange = ({ viewState }) => {
-    setViewState(viewState);
-  };
+  const [manualMode, setManualMode] = useState(false); // State to track manual mode
+  const [manualDaytime, setManualDaytime] = useState(true); // State to track manual day/night mode
 
   // State hook to manage whether it is currently daytime
   const [isDaytime, setIsDaytime] = useState(() => {
     const currentHour = new Date(time * 1000).getHours();
     return currentHour >= 6 && currentHour < 18;
   });
+
+  useEffect(() => {
+    if (manualMode) {
+      setDayMapOpacity(manualDaytime ? 1 : 0);
+      setNightMapOpacity(manualDaytime ? 0 : 1);
+    }
+  }, [manualMode, manualDaytime]);
+
+  // Function to toggle the manualDaytime state
+  const toggleDaytime = () => {
+    // Toggle only if we're in manual mode
+    if (manualMode) {
+      setManualDaytime(!manualDaytime);
+    }
+  };
+
+  const onViewStateChange = ({ viewState }) => {
+    setViewState(viewState);
+  };
+
+
 
   const animate = () => {
     setTime((t) => {
@@ -75,7 +95,7 @@ export default function App({
     const isNowDaytime = currentHour >= 6 && currentHour < 18;
 
     // Only update state if there is an actual change from day to night, or night to day
-    if (isDaytime !== isNowDaytime) {
+    if ((isDaytime !== isNowDaytime) && !manualMode) {
       setIsDaytime(isNowDaytime); // Update the daytime state
 
       // Update opacities to initiate the transition
@@ -167,32 +187,48 @@ export default function App({
 
       {/* Your existing UI components such as the date/time display and play/pause button */}
       <div style={{ position: 'absolute', top: '10px', left: '10px', background: 'rgba(255, 255, 255, 0.8)', padding: '10px', borderRadius: '5px' }}>
-        {new Date(displayTime * 1000).toLocaleDateString('fr-FR', {
-          weekday: 'long',
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric',
-          hour: 'numeric',
-          minute: 'numeric',
-          second: 'numeric'
-        })}
-        <button onClick={() => {
-          setIsPlaying(!isPlaying);
-        }}>
-          {isPlaying ? 'Pause' : 'Play'}
-        </button>
-        <input
-          type="range"
-          min={1701043200}
-          max={1701388800}
-          step={animationSpeed}
-          value={time}
-          onChange={(e) => {
-            const newTime = parseFloat(e.target.value);
-            setTime(newTime);
-            setDisplayTime(newTime);
-          }}
-        />
+        <div>
+          {new Date(displayTime * 1000).toLocaleDateString('fr-FR', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric',
+            second: 'numeric'
+          })}
+          <button onClick={() => {
+            setIsPlaying(!isPlaying);
+          }}>
+            {isPlaying ? 'Pause' : 'Play'}
+          </button>
+          <input
+            type="range"
+            min={1701043200}
+            max={1701388800}
+            step={animationSpeed}
+            value={time}
+            onChange={(e) => {
+              const newTime = parseFloat(e.target.value);
+              setTime(newTime);
+              setDisplayTime(newTime);
+            }}
+          />
+        </div>
+        <div>
+          {/* Button to enable/disable manual mode */}
+          <button onClick={() => setManualMode(!manualMode)}>
+            Mode nuit/jour manuel : {manualMode ? 'Désactiver' : 'Activer'}
+          </button>
+
+          {/* Button to toggle between day and night mode, shown only when manualMode is enabled */}
+          {manualMode && (
+            <button onClick={toggleDaytime}>
+              Changer pour la vue {manualDaytime ? 'Nuit' : 'Jour'}
+            </button>
+          )}
+        </div>
+
       </div>
     </div>
   );
