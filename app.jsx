@@ -28,8 +28,10 @@ const PARIS_VIEW_STATE = {
   bearing: 0
 };
 
-const MAP_STYLE_DAY = 'https://tiles.basemaps.cartocdn.com/gl/voyager-gl-style/style.json';
-const MAP_STYLE_NIGHT = 'https://tiles.basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json';
+//const MAP_STYLE_DAY = 'https://tiles.basemaps.cartocdn.com/gl/voyager-gl-style/style.json';
+const MAP_STYLE_DAY = 'https://api.jawg.io/styles/jawg-sunny.json?access-token=PloxOfmKiUbkBGlC0pazNY8inlQKTd4Vzo3UcvcrFxDT0WvmxHVV1ya1ElBdkj42';
+//const MAP_STYLE_NIGHT = 'https://tiles.basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json';
+const MAP_STYLE_NIGHT = 'https://api.jawg.io/styles/jawg-dark.json?access-token=PloxOfmKiUbkBGlC0pazNY8inlQKTd4Vzo3UcvcrFxDT0WvmxHVV1ya1ElBdkj42';
 
 
 
@@ -299,7 +301,10 @@ export default function App({
 
 
           <button onClick={goToCustomLocation}>
-            Go to Location
+            Voler!
+          </button>
+          <button onClick={e => goToLocation(initialViewState)}>
+            Reset la vue
           </button>
         </div>
 
