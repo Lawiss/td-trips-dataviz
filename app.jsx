@@ -223,7 +223,7 @@ export default function App({
       </DeckGL>
 
       {/* Your existing UI components such as the date/time display and play/pause button */}
-      <div style={{ position: 'absolute', top: '10px', left: '10px', background: 'rgba(255, 255, 255, 0.8)', padding: '10px', borderRadius: '5px' }}>
+      <div style={{ position: 'absolute', top: '10px', left: '10px', background: 'rgba(255, 255, 255, 0.8)', padding: '10px', borderRadius: '5px', width: '10%' }}>
         <div>
           {new Date(displayTime * 1000).toLocaleDateString('fr-FR', {
             weekday: 'long',
